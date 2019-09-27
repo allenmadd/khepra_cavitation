@@ -22,7 +22,7 @@ import matplotlib.pyplot as plt
 #bubble diameter
 bubbleDiameter = 1 #mm
 #boundary diameter 
-boundartDiameter = 8 #mm
+boundaryDiameter = 8 #mm
 #boundary pressure
 boundaryPressure = 0 #Pa
 #boundary temperature
@@ -62,21 +62,23 @@ surfaceTension = 31.6 #mN/m
 moles = 1
 
 """arrays"""
-#time (i believe thiis can just be a constant, it is infinitessimal,)
-
-
+#time (i believe this can just be a constant, it is infinitessimal,)
+deltaTime = .01 #seconds
 #pressure in the bubble?
-
+bubblePressure = ((2*surfaceTension/(boundaryDiameter/2))+initialOilPressure)*(((boundaryDiameter/2)/(initialBubbleDiameter/2)))**3
 #change in volume (should this be constant? should this change as the bubble oscillates?)
-
+deltaV = deltaTime * (4/3)*np.pi*(initialBubbleDiameter/2)**3 #volume of a sphere times delta time to get delta volume
 #need to figure out what Tb and Tinfinity are . maybe Tinfinity is the boundary temperature but idk what Tb is 
-
-"""determine the temperature (pseudocode because I am sleepy)"""
-#T(0) = 300
-#for i=1:length(temperature):
-#   T(i) = T(i-1) + (1/(moles*specificHeat))*(bubblePressure*deltaV - thermalConductivity*bubbleArea*(Tb-Tinfinity)deltaTime/d 
-#- emissivity*steffon*bubbleArea*(Tb^4 - Tinfinity^4)*deltaTime)
-
+Tb = initialTemperature
+Tinfinity = boundaryTemperature
+"""determine the temperature"""
+T = np.zeros(100)
+T[0] = 300
+for i in np.arange(1, np.size(T)-1):
+   #update temperature
+   T[i] = T[i-1] + (1/(moles*specificHeat)) *(bubblePressure*deltaV - thermalConductivity*bubbleArea*(Tb-Tinfinity)*deltaTime/d - emissivity*steffon*bubbleArea*(Tb^4 - Tinfinity^4)*deltaTime)
+   #update radius
+   
 """plot T(i)"""
 
 
